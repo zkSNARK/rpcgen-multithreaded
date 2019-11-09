@@ -2,6 +2,56 @@
 An implementation of multi-threaded rpcgen code suitable for compiling as 
 rpcgen -a -M 
 
+You can build this project in 2 ways.  First, using cmake (and c++)
+create a directory named 'build' in the root dir...
+
+    cd build
+    cmake ..
+
+Next run the server
+
+    ./server
+
+Then run the client
+
+    ./client
+    
+The second way you can build is to enter the src directory and use the 
+include make file.
+
+    make clean
+    make
+    
+Run the server with 
+ 
+    make run_server
+
+Run the client with
+
+    make run_client
+    
+    
+The above builds have been tested with gcc version 7.4.0 on Ubuntu 
+7.4.0-1ubuntu1~18.04.1l.
+
+The two builds are here for different reasons, but essentially accomplish the
+same thing (until I start modifying things).
+
+The cmake based build enables c++ code to be mixed in, while the makefile 
+build uses the rpcgen built in makefile which does not compile or link with
+c++ stuff. 
+
+It has been my intention to start playing with c++, so that is why I include
+the cmake build though, so I'm leaving it hear incase anyone else as 
+unfortunate as myself has to deal with this antiquated rpcgen stuff and
+wants to encorporate c++.
+
+I doubt I will actually do any c++ stuff in the end though because the 
+assignment that I am doing this for is annoying enough as it is. 
+
+
+## What is going on here?
+
 Note that I'm not certain what the history behind this code is.  But since
 I am required to write a multi-threaded program using rpcgen, and this seems
 to be the only working example I can find on the internet, it is what I'm 
