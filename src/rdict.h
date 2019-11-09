@@ -18,8 +18,8 @@ extern "C" {
 #define DICTSIZ 100
 
 struct example {
-	int exfield1;
-	char exfield2;
+  int exfield1;
+  char exfield2;
 };
 typedef struct example example;
 
@@ -28,42 +28,42 @@ typedef struct example example;
 
 #if defined(__STDC__) || defined(__cplusplus)
 #define INITW 1
-extern  enum clnt_stat initw_1(void *, int *, CLIENT *);
-extern  bool_t initw_1_svc(void *, int *, struct svc_req *);
+extern enum clnt_stat initw_1(void *, int *, CLIENT *);
+extern bool_t initw_1_svc(void *, int *, struct svc_req *);
 #define INSERTW 2
-extern  enum clnt_stat insertw_1(char **, int *, CLIENT *);
-extern  bool_t insertw_1_svc(char **, int *, struct svc_req *);
+extern enum clnt_stat insertw_1(char **, int *, CLIENT *);
+extern bool_t insertw_1_svc(char **, int *, struct svc_req *);
 #define DELETEW 3
-extern  enum clnt_stat deletew_1(char **, int *, CLIENT *);
-extern  bool_t deletew_1_svc(char **, int *, struct svc_req *);
+extern enum clnt_stat deletew_1(char **, int *, CLIENT *);
+extern bool_t deletew_1_svc(char **, int *, struct svc_req *);
 #define LOOKUPW 4
-extern  enum clnt_stat lookupw_1(char **, int *, CLIENT *);
-extern  bool_t lookupw_1_svc(char **, int *, struct svc_req *);
-extern int rdictprog_1_freeresult (SVCXPRT *, xdrproc_t, caddr_t);
+extern enum clnt_stat lookupw_1(char **, int *, CLIENT *);
+extern bool_t lookupw_1_svc(char **, int *, struct svc_req *);
+extern int rdictprog_1_freeresult(SVCXPRT *, xdrproc_t, caddr_t);
 
 #else /* K&R C */
 #define INITW 1
-extern  enum clnt_stat initw_1();
-extern  bool_t initw_1_svc();
+extern enum clnt_stat initw_1();
+extern bool_t initw_1_svc();
 #define INSERTW 2
-extern  enum clnt_stat insertw_1();
-extern  bool_t insertw_1_svc();
+extern enum clnt_stat insertw_1();
+extern bool_t insertw_1_svc();
 #define DELETEW 3
-extern  enum clnt_stat deletew_1();
-extern  bool_t deletew_1_svc();
+extern enum clnt_stat deletew_1();
+extern bool_t deletew_1_svc();
 #define LOOKUPW 4
-extern  enum clnt_stat lookupw_1();
-extern  bool_t lookupw_1_svc();
-extern int rdictprog_1_freeresult ();
+extern enum clnt_stat lookupw_1();
+extern bool_t lookupw_1_svc();
+extern int rdictprog_1_freeresult();
 #endif /* K&R C */
 
 /* the xdr functions */
 
 #if defined(__STDC__) || defined(__cplusplus)
-extern  bool_t xdr_example (XDR *, example*);
+extern bool_t xdr_example(XDR *, example *);
 
 #else /* K&R C */
-extern bool_t xdr_example ();
+extern bool_t xdr_example();
 
 #endif /* K&R C */
 

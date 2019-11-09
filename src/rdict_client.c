@@ -152,7 +152,6 @@ int nextin(char *cmd, char *word) {
   return i;
 }
 
-
 int main(int argc, char *argv[]) {
   char *host;
 
