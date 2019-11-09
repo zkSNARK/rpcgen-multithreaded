@@ -10,22 +10,33 @@
 #include <rpc/rpc.h>
 #include <string.h>
 
+char dict[DICTSIZ][MAXWORD + 1];
+static char snd[50];
+static int lns;
+int nwords = 0;
+
 // prototypes 
-int initw(void), insertw(char *), deletew(char *), lookupw(char *);
+int deletew(char *), lookupw(char *);
 
 // implement rpc calls
-bool_t insertw_1_svc(char **w, int *ptr_retcode, struct svc_req *rqstp) {
-  *ptr_retcode = insertw(*(char **)w);
-  return (TRUE);
-}
 bool_t initw_1_svc(void *w, int *ptr_retcode, struct svc_req *rqstp) {
-  *ptr_retcode = initw();
+  nwords = 0;
+  *ptr_retcode = 1;
   return (TRUE);
 }
+
+bool_t insertw_1_svc(char **w, int *ptr_retcode, struct svc_req *rqstp) {
+  strcpy(dict[nwords], *w);
+  nwords++;
+  *ptr_retcode = nwords;
+  return (TRUE);
+}
+
 bool_t deletew_1_svc(char **w, int *ptr_retcode, struct svc_req *rqstp) {
   *ptr_retcode = deletew(*(char **)w);
   return (TRUE);
 }
+
 bool_t lookupw_1_svc(char **w, int *ptr_retcode, struct svc_req *rqstp) {
   *ptr_retcode = lookupw(*(char **)w);
   return (TRUE);
@@ -36,24 +47,6 @@ int rdictprog_1_freeresult(SVCXPRT *transp, xdrproc_t xdr_result, caddr_t result
   return (1);
 }
 
-
-
-char dict[DICTSIZ][MAXWORD + 1];
-static char snd[50];
-static int lns;
-int nwords = 0;
-
-
-int initw() {
-  nwords = 0;
-  return 1;
-}
-
-int insertw(char *word) {
-  strcpy(dict[nwords], word);
-  nwords++;
-  return nwords;
-}
 
 int deletew(char *word) {
   int i;

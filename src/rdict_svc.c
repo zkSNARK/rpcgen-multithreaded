@@ -4,17 +4,18 @@
  */
 
 #include "rdict.h"
-#include <memory.h>
 #include <netinet/in.h>
 #include <rpc/pmap_clnt.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/socket.h>
 
 #ifndef SIG_PF
 #define SIG_PF void (*)(int)
 #endif
+
+////////////////////////////////////////////////////////
+// head
 pthread_t p_thread;
 pthread_attr_t attr;
 
@@ -29,12 +30,15 @@ typedef struct thr_context {
 // rqstp and the transp
 void *serv_request(void *data) {
   thr_context * context = (thr_context*)data;
+  struct svc_req *rqstp = context->rqstp;
+  register SVCXPRT *transp = context->transp;
+////////////////////////////////////////////////////////
+
 
   union {
     char *insertw_1_arg;
     char *deletew_1_arg;
     char *lookupw_1_arg;
-
   } argument;
   union {
     int initw_1_res;
@@ -45,9 +49,6 @@ void *serv_request(void *data) {
   bool_t retval;
   xdrproc_t _xdr_argument, _xdr_result;
   bool_t (*local)(char *, void *, struct svc_req *);
-
-  struct svc_req *rqstp = context->rqstp;
-  register SVCXPRT *transp = context->transp;
 
   switch (rqstp->rq_proc) {
   case NULLPROC:
@@ -102,12 +103,12 @@ void *serv_request(void *data) {
   return NULL;
 }
 
-/*
-  New code for procedure rdictprog_1 , starting thread
-  in response for each clients request to invoke remote
-  procedure
-*/
-
+/////////////////////////////////////////////////////////////////
+/**
+ * New code for procedure rdictprog_1 , starting thread
+ * in response for each clients request to invoke remote
+ * procedure
+ */
 static void rdictprog_1(struct svc_req *rqstp, register SVCXPRT *transp) {
   thr_context *data_ptr = (thr_context *)malloc(sizeof(thr_context));
   data_ptr->rqstp = rqstp;
@@ -115,6 +116,8 @@ static void rdictprog_1(struct svc_req *rqstp, register SVCXPRT *transp) {
   pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
   pthread_create(&p_thread, &attr, serv_request, (void *)data_ptr);
 }
+/////////////////////////////////////////////////////////////////
+
 
 int main(int argc, char **argv) {
   register SVCXPRT *transp;

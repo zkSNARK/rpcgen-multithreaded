@@ -11,6 +11,7 @@ configure_file (
 SET(CMAKE_CXX_FLAGS -pthread)
 
 add_executable(client
+  src/menu.h
   src/rdict_client.c
   src/rdict_clnt.c
   )

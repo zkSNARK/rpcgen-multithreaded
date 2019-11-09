@@ -5,7 +5,7 @@
 # Executables created if you run make inside the source dir
 rdict_client
 rdict_server
-
+tmp/*
 
 ### C ###
 # Prerequisites
