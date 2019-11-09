@@ -1,0 +1,4 @@
+// the configured options and settings for project
+#define A3_VERSION_MAJOR @A3_VERSION_MAJOR@
+#define A3_VERSION_MINOR @A3_VERSION_MINOR@
+#define A3_VERSION_PATCH @A3_VERSION_PATCH@
