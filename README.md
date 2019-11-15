@@ -46,15 +46,15 @@ same thing (until I start modifying things).
 
 The cmake based build enables c++ code to be mixed in, while the makefile 
 build uses the rpcgen built in makefile which does not compile or link with
-c++ stuff. 
+c++ stuff.  You can the rpcgen Makefile.rdict file to compile with c++ support
+by adding the following defs somewhere above the object rules in the makefile.
 
-It has been my intention to start playing with c++, so that is why I include
-the cmake build though, so I'm leaving it hear incase anyone else as 
-unfortunate as myself has to deal with this antiquated rpcgen stuff and
-wants to encorporate c++.
+    CC=g++
+    CXX=g++
+    
 
-I doubt I will actually do any c++ stuff in the end though because the 
-assignment that I am doing this for is annoying enough as it is. 
+
+
 
 
 ## What is going on here?
