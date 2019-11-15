@@ -5,7 +5,7 @@ rpcgen -a -M
 
 You can build this project in 2 ways.  
 
-###With Cmake
+**With Cmake**
 
 First, using cmake (and c++)
 create a directory named 'build' in the root dir...
@@ -21,7 +21,7 @@ Then run the client
 
     ./client
     
-###With Makefile
+**With Makefile**
 
 The second way you can build is to enter the src directory and use the 
 include make file.
