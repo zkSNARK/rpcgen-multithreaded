@@ -2,7 +2,10 @@
 An implementation of multi-threaded rpcgen code suitable for compiling as 
 rpcgen -a -M 
 
-You can build this project in 2 ways.  First, using cmake (and c++)
+
+You can build this project in 2 ways.  
+####With Cmake
+First, using cmake (and c++)
 create a directory named 'build' in the root dir...
 
     cd build
@@ -16,6 +19,7 @@ Then run the client
 
     ./client
     
+####With Makefile
 The second way you can build is to enter the src directory and use the 
 include make file.
 
