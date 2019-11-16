@@ -6,7 +6,11 @@
 
 #include <assert.h>
 
-
+/**
+ * An example which has no arguements that it passes to the server
+ * but a single argument (int) in returned.  No memory is needed
+ * to be allocated for this simple return type.
+ */
 void handle_initw(CLIENT *clnt) {
   int result_1;
 
@@ -18,6 +22,20 @@ void handle_initw(CLIENT *clnt) {
   }
 }
 
+/**
+ * In this example we pass a simple char* (C style string) to the
+ * server.  The server stores it into a local buffer, and then
+ * the server returns an integer.
+ *
+ * I'm not entirely clear as to why we are allowed to pass a C style
+ * string type here, but I can guess that something in the xdr creation
+ * phase recognizes this as a \0 terminated string and then packs an
+ * xdr buffer up to the \0.  Most of the other types seem to need a
+ * buffer and a len, and xdr even provides us with string<> which is
+ * a variable length string... but in this case we don't need to use it
+ * to send data into xdr.  More experiments would need to be done to
+ * see if we can return a string in a similar fashion from the server.
+ */
 void handle_insertw(CLIENT *clnt) {
   char *insertw_1_arg1 = "hello";
   int result_2;

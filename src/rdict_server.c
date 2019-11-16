@@ -40,11 +40,20 @@ bool_t initw_1_svc(int *result, struct svc_req *rqstp) {
   return TRUE;
 }
 
+/**
+ * This is another example from the original author.  If you read the
+ * notes in the client file, you can see that this passes a c style
+ * string by value.  We receive it as 'arg1'.
+ *
+ * Since the result type is an int, we don't need to do anything
+ * special to return it.
+ */
 bool_t insertw_1_svc(char *arg1, int *result, struct svc_req *rqstp) {
   (void)rqstp;
 
   printf("server executing insertw_1_svc\n");
 
+  printf("received word %s\n", arg1);
   strcpy(dict[nwords], arg1);
   nwords++;
   *result = nwords;
@@ -56,6 +65,14 @@ bool_t insertw_1_svc(char *arg1, int *result, struct svc_req *rqstp) {
 /**
  * This example adds the two arrays (arg1 and arg2) together and stores
  * the sum as result.
+ *
+ * Note that the result which was typed as an 'int_ptr' has not become
+ * a struct that was generated for us by rpcgen.
+ *
+ * In order to send something back to the client here, we need to
+ * allocate directly into the result->int_ptr_val and set the
+ * result->int_ptr_len.  If we don't set the length, something will
+ * blow up.
  */
 bool_t array_example_1_svc(int_ptr arg1, int_ptr arg2, int_ptr *result,
                            struct svc_req *rqstp) {
@@ -79,8 +96,14 @@ bool_t array_example_1_svc(int_ptr arg1, int_ptr arg2, int_ptr *result,
 /**
  * In this example, note that we again need to allocate into the
  * buffer that is inside the 'data' field which is inside the result
- * structure.  We also must set the len field, or everything will
- * blow up.
+ * structure.  We also must set the len field, or again, everything will
+ * blow up without mercy
+ *
+ * Notice that the strcuture that rpcgen created for us is a pretty
+ * normal structure with the same variable names on the outside, but
+ * in the data field, which is an xdr type, it is just like the one
+ * in the above 'array_example_1_svc' when we saw the 'int_ptr'
+ * struct used.
  */
 bool_t matrix_example_1_svc(matrix arg1, matrix *result,
                             struct svc_req *rqstp) {
