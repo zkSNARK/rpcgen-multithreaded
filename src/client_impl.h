@@ -85,6 +85,10 @@ void handle_array_example(CLIENT *clnt) {
     }
     printf("Successfully added two arrays of ints in the server.\n");
   }
+
+  free(result.int_ptr_val);
+  free(arr1.int_ptr_val);
+  free(arr2.int_ptr_val);
 }
 
 /**
@@ -124,4 +128,7 @@ void handle_matrix_example(CLIENT *clnt) {
     }
     printf("Successfully called the matrix example.\n");
   }
+
+  free(R.data.int_ptr_val);
+  free(M.data.int_ptr_val);
 }
