@@ -2,6 +2,9 @@
 An implementation of multi-threaded rpcgen code suitable for compiling as 
 rpcgen -a -M 
 
+This code enables multithreaded / concurrent usage of the server and shows
+a few examples of data types you can use. 
+
 
 You can build this project in 2 ways.  
 
