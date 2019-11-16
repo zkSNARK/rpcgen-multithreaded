@@ -12,7 +12,7 @@ SOURCES_SVC.c =
 SOURCES_SVC.h = 
 SOURCES.x = rdict.x
 
-TARGETS_SVC.c = rdict_svc.c rdict_server.c rdict_xdr.c
+TARGETS_SVC.c = rdict_svc.c rdict_server.c rdict_xdr.c 
 TARGETS_CLNT.c = rdict_clnt.c rdict_client.c rdict_xdr.c 
 TARGETS = rdict.h rdict_xdr.c rdict_clnt.c rdict_svc.c rdict_client.c rdict_server.c
 

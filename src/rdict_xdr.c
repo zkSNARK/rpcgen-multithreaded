@@ -5,12 +5,31 @@
 
 #include "rdict.h"
 
-bool_t xdr_example(XDR *xdrs, example *objp) {
+bool_t xdr_int_ptr(XDR *xdrs, int_ptr *objp) {
   register int32_t *buf;
 
-  if (!xdr_int(xdrs, &objp->exfield1))
+  if (!xdr_array(xdrs, (char **)&objp->int_ptr_val, (u_int *)&objp->int_ptr_len,
+                 ~0, sizeof(int), (xdrproc_t)xdr_int))
     return FALSE;
-  if (!xdr_char(xdrs, &objp->exfield2))
+  return TRUE;
+}
+
+bool_t xdr_matrix(XDR *xdrs, matrix *objp) {
+  register int32_t *buf;
+
+  if (!xdr_int_ptr(xdrs, &objp->data))
+    return FALSE;
+  if (!xdr_int(xdrs, &objp->nrow))
+    return FALSE;
+  if (!xdr_int(xdrs, &objp->ncol))
+    return FALSE;
+  return TRUE;
+}
+
+bool_t xdr_array_example_1_argument(XDR *xdrs, array_example_1_argument *objp) {
+  if (!xdr_int_ptr(xdrs, &objp->arg1))
+    return FALSE;
+  if (!xdr_int_ptr(xdrs, &objp->arg2))
     return FALSE;
   return TRUE;
 }

@@ -4,66 +4,105 @@
  * as a guideline for developing your own functions.
  */
 
-
 #include "rdict.h"
 
-#include <rpc/rpc.h>
-#include <string.h>
+#include <assert.h>
 
-char dict[DICTSIZ][MAXWORD + 1];
-static char snd[50];
-static int lns;
 int nwords = 0;
+char dict[DICTSIZ][MAXWORD + 1];
 
-// prototypes 
-int deletew(char *), lookupw(char *);
+/**
+ * This example comes from the original author.  I'm not sure why he
+ * included this other than just to do something simple to show that
+ * you can store stuff into variables in this translation unit.
+ *
+ * Regardless, one interesting thing to note here is that the use of
+ * the -N flag causes the result variable to change its type.
+ *
+ * Compiling with -N allows you to pass multiple arguments, as you
+ * can see in an example below, but it also seems to change their type.
+ *
+ * This example takes in no parameters, but sends the result out the
+ * int * result parameter, while returning a bool to indicate the
+ * status of the rpc call.  Note that a successful rpc call will result
+ * in a return value of TRUE (or 1), which is at odds with most C code
+ * out there.  Not sure why rpcgen guys did this.
+ */
+bool_t initw_1_svc(int *result, struct svc_req *rqstp) {
+  (void)rqstp;
 
-// implement rpc calls
-bool_t initw_1_svc(void *w, int *ptr_retcode, struct svc_req *rqstp) {
+  printf("server executing initw_1_svc\n");
+
   nwords = 0;
-  *ptr_retcode = 1;
-  return (TRUE);
+  *result = 1;
+
+  printf("completed initw_1_svc\n");
+  return TRUE;
 }
 
-bool_t insertw_1_svc(char **w, int *ptr_retcode, struct svc_req *rqstp) {
-  strcpy(dict[nwords], *w);
+bool_t insertw_1_svc(char *arg1, int *result, struct svc_req *rqstp) {
+  (void)rqstp;
+
+  printf("server executing insertw_1_svc\n");
+
+  strcpy(dict[nwords], arg1);
   nwords++;
-  *ptr_retcode = nwords;
-  return (TRUE);
+  *result = nwords;
+
+  printf("completed insertw_1_svc\n");
+  return TRUE;
 }
 
-bool_t deletew_1_svc(char **w, int *ptr_retcode, struct svc_req *rqstp) {
-  *ptr_retcode = deletew(*(char **)w);
-  return (TRUE);
+/**
+ * This example adds the two arrays (arg1 and arg2) together and stores
+ * the sum as result.
+ */
+bool_t array_example_1_svc(int_ptr arg1, int_ptr arg2, int_ptr *result,
+                           struct svc_req *rqstp) {
+  (void)rqstp;
+
+  printf("server executing array_example_1_svc\n");
+
+  assert(arg1.int_ptr_len == arg2.int_ptr_len);
+
+  result->int_ptr_val = malloc(sizeof(int) * arg1.int_ptr_len);
+  result->int_ptr_len = arg1.int_ptr_len;
+
+  for (unsigned int i = 0; i < arg1.int_ptr_len; ++i) {
+    result->int_ptr_val[i] = arg1.int_ptr_val[i] + arg2.int_ptr_val[i];
+  }
+
+  printf("completed array_example_1_svc\n");
+  return TRUE;
 }
 
-bool_t lookupw_1_svc(char **w, int *ptr_retcode, struct svc_req *rqstp) {
-  *ptr_retcode = lookupw(*(char **)w);
-  return (TRUE);
+/**
+ * In this example, note that we again need to allocate into the
+ * buffer that is inside the 'data' field which is inside the result
+ * structure.  We also must set the len field, or everything will
+ * blow up.
+ */
+bool_t matrix_example_1_svc(matrix arg1, matrix *result,
+                            struct svc_req *rqstp) {
+  (void)rqstp;
+
+  printf("server executing matrix_example_1_svc\n");
+
+  result->data.int_ptr_val = malloc(sizeof(int) * arg1.data.int_ptr_len);
+  result->data.int_ptr_len = arg1.data.int_ptr_len;
+
+  for (unsigned int i = 0; i < result->data.int_ptr_len; ++i) {
+    result->data.int_ptr_val[i] = arg1.data.int_ptr_val[i] + 42;
+  }
+
+  printf("completed matrix_example_1_svc\n");
+  return TRUE;
 }
 
-int rdictprog_1_freeresult(SVCXPRT *transp, xdrproc_t xdr_result, caddr_t result) {
+int rdictprog_1_freeresult(SVCXPRT *transp, xdrproc_t xdr_result,
+                           caddr_t result) {
+  (void)transp;
+
   xdr_free(xdr_result, result);
-  return (1);
+  return 1;
 }
-
-
-int deletew(char *word) {
-  int i;
-  for (i = 0; i < nwords; i++)
-    if (strcmp(word, dict[i]) == 0) {
-      nwords--;
-      strcpy(dict[i], dict[nwords]);
-      return 1;
-    }
-  return 0;
-}
-
-int lookupw(char *word) {
-  int i;
-  for (i = 0; i < nwords; i++)
-    if (strcmp(word, dict[i]) == 0)
-      return 1;
-  return 0;
-}
-

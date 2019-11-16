@@ -9,22 +9,27 @@
 /* Default timeout can be changed using clnt_control() */
 static struct timeval TIMEOUT = {25, 0};
 
-enum clnt_stat initw_1(void *argp, int *clnt_res, CLIENT *clnt) {
-  return (clnt_call(clnt, INITW, (xdrproc_t)xdr_void, (caddr_t)argp,
+enum clnt_stat initw_1(int *clnt_res, CLIENT *clnt) {
+  return (clnt_call(clnt, INITW, (xdrproc_t)xdr_void, (caddr_t)NULL,
                     (xdrproc_t)xdr_int, (caddr_t)clnt_res, TIMEOUT));
 }
 
-enum clnt_stat insertw_1(char **argp, int *clnt_res, CLIENT *clnt) {
-  return (clnt_call(clnt, INSERTW, (xdrproc_t)xdr_wrapstring, (caddr_t)argp,
+enum clnt_stat insertw_1(char *arg1, int *clnt_res, CLIENT *clnt) {
+  return (clnt_call(clnt, INSERTW, (xdrproc_t)xdr_wrapstring, (caddr_t)&arg1,
                     (xdrproc_t)xdr_int, (caddr_t)clnt_res, TIMEOUT));
 }
 
-enum clnt_stat deletew_1(char **argp, int *clnt_res, CLIENT *clnt) {
-  return (clnt_call(clnt, DELETEW, (xdrproc_t)xdr_wrapstring, (caddr_t)argp,
-                    (xdrproc_t)xdr_int, (caddr_t)clnt_res, TIMEOUT));
+enum clnt_stat array_example_1(int_ptr arg1, int_ptr arg2, int_ptr *clnt_res,
+                               CLIENT *clnt) {
+  array_example_1_argument arg;
+  arg.arg1 = arg1;
+  arg.arg2 = arg2;
+  return (clnt_call(clnt, ARRAY_EXAMPLE,
+                    (xdrproc_t)xdr_array_example_1_argument, (caddr_t)&arg,
+                    (xdrproc_t)xdr_int_ptr, (caddr_t)clnt_res, TIMEOUT));
 }
 
-enum clnt_stat lookupw_1(char **argp, int *clnt_res, CLIENT *clnt) {
-  return (clnt_call(clnt, LOOKUPW, (xdrproc_t)xdr_wrapstring, (caddr_t)argp,
-                    (xdrproc_t)xdr_int, (caddr_t)clnt_res, TIMEOUT));
+enum clnt_stat matrix_example_1(matrix arg1, matrix *clnt_res, CLIENT *clnt) {
+  return (clnt_call(clnt, MATRIX_EXAMPLE, (xdrproc_t)xdr_matrix, (caddr_t)&arg1,
+                    (xdrproc_t)xdr_matrix, (caddr_t)clnt_res, TIMEOUT));
 }

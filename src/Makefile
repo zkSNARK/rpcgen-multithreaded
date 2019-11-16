@@ -13,7 +13,7 @@ build:
 	make -f Makefile.rdict
 
 rpcgen:
-	rpcgen -a -M $(SRC)
+	rpcgen -a -N -M $(SRC)
 
 run_client:
 	./$(CLIENT) localhost

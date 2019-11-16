@@ -1,14 +1,19 @@
 const MAXWORD=50;
 const DICTSIZ=100;
-struct example{
-	int exfield1;
-	char exfield2;
+
+typedef int int_ptr<>;
+
+struct matrix {
+    int_ptr data;
+    int nrow;
+    int ncol;
 };
+
 program RDICTPROG {
 	version RDICTVERS {
-	int INITW(void)=1;
-	int INSERTW(string)=2;
-	int DELETEW(string)=3;
-	int LOOKUPW(string)=4;
+        int INITW(void)=1;
+        int INSERTW(string)=2;
+        int_ptr ARRAY_EXAMPLE(int_ptr, int_ptr) = 3;
+        matrix MATRIX_EXAMPLE(matrix) = 4;
 	} =1;
 } =0x30090949;
